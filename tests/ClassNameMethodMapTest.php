@@ -6,13 +6,12 @@ namespace Era269\MethodMap\Tests;
 
 use DateTime;
 use DateTimeInterface;
-use Era269\MethodMap\AbstractMethodMap;
-use PHPUnit\Framework\MockObject\MockObject;
+use Era269\MethodMap\ClassNameMethodMap;
 use PHPUnit\Framework\TestCase;
 use ReflectionException;
 use ReflectionMethod;
 
-class AbstractMethodMapTest extends TestCase
+class ClassNameMethodMapTest extends TestCase
 {
     /**
      * @dataProvider dataProvider
@@ -22,12 +21,9 @@ class AbstractMethodMapTest extends TestCase
      *
      * @throws ReflectionException
      */
-    public function testGetMethodNames($object, bool $isParameterValid, int $visibility, array $expectedMethods): void
+    public function testGetMethodNames($object, int $visibility, array $expectedMethods): void
     {
-        $methodMap = $this->createMethodMapMock(get_class($object), $visibility);
-        $methodMap
-            ->method('isParameterValid')
-            ->willReturn($isParameterValid);
+        $methodMap = new ClassNameMethodMap(get_class($object), $visibility);
         $actualMethods = $methodMap->getMethodNames(new DateTime());
 
         self::assertEquals(
@@ -46,18 +42,22 @@ class AbstractMethodMapTest extends TestCase
             {
                 return $dateTime->getTimestamp();
             }
+
             private function doActionDateTime2Private(DateTime $dateTime)
             {
                 return $dateTime->getTimestamp();
             }
+
             protected function doActionDateTimeImmutableProtected(DateTime $dateTime)
             {
                 return $dateTime->getTimestamp();
             }
+
             public function doActionDateTimePublic(DateTime $dateTime)
             {
                 return $dateTime->getTimestamp();
             }
+
             public function doActionDateTimeInterfacePublic(DateTimeInterface $dateTime)
             {
                 return $dateTime->getTimestamp();
@@ -67,7 +67,6 @@ class AbstractMethodMapTest extends TestCase
         return [
             [
                 $object,
-                'is-parameterValid' => true,
                 ReflectionMethod::IS_PUBLIC,
                 'expected-methods' => [
                     'doActionDateTimePublic',
@@ -75,7 +74,6 @@ class AbstractMethodMapTest extends TestCase
             ],
             [
                 $object,
-                'is-parameterValid' => true,
                 ReflectionMethod::IS_PROTECTED,
                 'expected-methods' => [
                     'doActionDateTimeImmutableProtected',
@@ -83,43 +81,12 @@ class AbstractMethodMapTest extends TestCase
             ],
             [
                 $object,
-                'is-parameterValid' => true,
                 ReflectionMethod::IS_PRIVATE,
                 'expected-methods' => [
                     'doActionDateTimePrivate',
                     'doActionDateTime2Private',
                 ],
             ],
-            [
-                $object,
-                'is-parameterValid' => false,
-                ReflectionMethod::IS_PUBLIC,
-                'expected-methods' => [],
-            ],
-            [
-                $object,
-                'is-parameterValid' => false,
-                ReflectionMethod::IS_PROTECTED,
-                'expected-methods' => [],
-            ],
-            [
-                $object,
-                'is-parameterValid' => false,
-                ReflectionMethod::IS_PRIVATE,
-                'expected-methods' => [],
-            ],
         ];
-    }
-
-    /**
-     * @return AbstractMethodMap|MockObject
-     * @throws ReflectionException
-     */
-    private function createMethodMapMock(string $className, int $visibility): AbstractMethodMap
-    {
-        return $this->getMockForAbstractClass(
-            AbstractMethodMap::class,
-            [$className, $visibility]
-        );
     }
 }

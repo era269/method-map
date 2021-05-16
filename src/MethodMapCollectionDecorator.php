@@ -28,7 +28,6 @@ final class MethodMapCollectionDecorator implements MethodMapInterface
                 $methods
             );
         }
-
         return $methods;
     }
 }
