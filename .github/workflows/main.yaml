@@ -27,7 +27,7 @@ jobs:
         include:
           - php-versions: '7.1'
             phpunit-versions: '7.5.20'
-#            phpstan-versions: ['latest']
+            phpstan-versions: ['latest']
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
