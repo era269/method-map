@@ -19,7 +19,11 @@ jobs:
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+        php-versions: ['7.1', '7.2', '7.3', '7.4', '8.0']
+        phpunit-versions: ['latest']
+        phpstan-versions: ['latest']
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -28,17 +32,18 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '7.1'
-          coverage: xdebug
+          php-version: ${{ matrix.php-versions }}
+          coverage: pcov
+          tools: composer:v2, phpunit:${{ matrix.phpunit-versions }}, phpstan:${{ matrix.phpstan-versions }}
 
       - name: Install dependencies
-        run: composer update --prefer-dist --no-progress
+        run: composer update --prefer-dist --no-progress --no-dev
 
       - name: phpStan
-        run: vendor/bin/phpstan analyse
+        run: phpstan analyse
 
       - name: phpUnit
-        run: vendor/bin/phpunit
+        run: phpunit
 
       - name: Codecov
         uses: codecov/codecov-action@v1.3.2
