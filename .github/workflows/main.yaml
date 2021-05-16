@@ -50,7 +50,7 @@ jobs:
         run: phpstan analyse
 
       - name: phpUnit
-        run: phpunit --coverage-clover clover.xml tests
+        run: phpunit --coverage-clover clover.xml --bootstrap="./tests/bootstrap.php" --whitelist src tests
 
       - name: Codecov
         uses: codecov/codecov-action@v1.3.2
