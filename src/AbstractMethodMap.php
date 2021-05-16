@@ -6,6 +6,7 @@ namespace Era269\MethodMap;
 
 use ReflectionClass;
 use ReflectionMethod;
+use ReflectionNamedType;
 
 abstract class AbstractMethodMap implements MethodMapInterface
 {
@@ -50,17 +51,19 @@ abstract class AbstractMethodMap implements MethodMapInterface
             if ($method->getNumberOfParameters() !== 1) {
                 continue;
             }
-            $parameterType = (string) $method->getParameters()[0]->getType();
-            if (empty($parameterType)) {
+            $parameterType = $method->getParameters()[0]->getType();
+            if (!$parameterType instanceof ReflectionNamedType) {
                 continue;
             }
-            /** @var class-string $parameterType */
-            $parameterReflection = new ReflectionClass($parameterType);
+            if ($parameterType->isBuiltin()) {
+                continue;
+            }
+            $parameterReflection = new ReflectionClass($parameterType->getName());
 
             if (!$this->isParameterValid($parameterReflection)) {
                 continue;
             }
-            $methodNamesMap[$parameterType][] = $method->getName();
+            $methodNamesMap[$parameterType->getName()][] = $method->getName();
         }
 
         return $methodNamesMap;

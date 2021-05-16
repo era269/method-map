@@ -42,7 +42,19 @@ class AbstractMethodMapTest extends TestCase
     public function dataProvider(): array
     {
         $object = new class {
-            private function doActionDateTimePrivate(DateTime $dateTime)
+            private function doActionWrong0Private($wrong)
+            {
+                return $wrong;
+            }
+            private function doActionWrongPrivate(bool $wrong)
+            {
+                return $wrong;
+            }
+            private function doActionDateTime0Private(DateTime $dateTime, bool $wrong)
+            {
+                return $dateTime->getTimestamp();
+            }
+            private function doActionDateTime1Private(DateTime $dateTime)
             {
                 return $dateTime->getTimestamp();
             }
@@ -86,7 +98,7 @@ class AbstractMethodMapTest extends TestCase
                 'is-parameterValid' => true,
                 ReflectionMethod::IS_PRIVATE,
                 'expected-methods' => [
-                    'doActionDateTimePrivate',
+                    'doActionDateTime1Private',
                     'doActionDateTime2Private',
                 ],
             ],
