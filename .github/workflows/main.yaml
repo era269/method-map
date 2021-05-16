@@ -21,12 +21,15 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-versions: ['7.2', '7.3', '7.4', '8.0']
+        php-versions: ['7.3', '7.4', '8.0']
         phpunit-versions: ['latest']
         phpstan-versions: ['latest']
         include:
           - php-versions: '7.1'
             phpunit-versions: '7.5.20'
+            phpstan-versions: ['latest']
+          - php-versions: '7.2'
+            phpunit-versions: '8.5.15'
             phpstan-versions: ['latest']
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:

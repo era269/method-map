@@ -11,5 +11,6 @@ class AbstractMethodMapTest extends TestCase
 {
     public function testGetMethodNames(): void
     {
+        self::assertTrue(true);
     }
 }
