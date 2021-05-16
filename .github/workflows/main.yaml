@@ -50,7 +50,7 @@ jobs:
         run: phpstan analyse
 
       - name: phpUnit
-        run: phpunit
+        run: phpunit --coverage-clover clover.xml
 
       - name: Codecov
         uses: codecov/codecov-action@v1.3.2

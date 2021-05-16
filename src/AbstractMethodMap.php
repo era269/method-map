@@ -50,16 +50,17 @@ abstract class AbstractMethodMap implements MethodMapInterface
             if ($method->getNumberOfParameters() !== 1) {
                 continue;
             }
-            $parameterType = $method->getParameters()[0]->getType();
-            if (is_null($parameterType)) {
+            $parameterType = (string) $method->getParameters()[0]->getType();
+            if (empty($parameterType)) {
                 continue;
             }
+            /** @var class-string $parameterType */
             $parameterReflection = new ReflectionClass($parameterType);
 
             if (!$this->isParameterValid($parameterReflection)) {
                 continue;
             }
-            $methodNamesMap[$parameterReflection->getName()][] = $method->getName();
+            $methodNamesMap[$parameterType][] = $method->getName();
         }
 
         return $methodNamesMap;

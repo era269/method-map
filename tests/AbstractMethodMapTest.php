@@ -27,9 +27,11 @@ class AbstractMethodMapTest extends TestCase
         $methodMap
             ->method('isParameterValid')
             ->willReturn($isParameterValid);
+        $actualMethods = $methodMap->getMethodNames(new DateTime());
+
         self::assertEquals(
             $expectedMethods,
-            $methodMap->getMethodNames(new DateTime())
+            $actualMethods
         );
     }
 
@@ -68,6 +70,7 @@ class AbstractMethodMapTest extends TestCase
                 ReflectionMethod::IS_PUBLIC,
                 'expected-methods' => [
                     'doActionDateTimePublic',
+                    'doActionDateTimeInterfacePublic',
                 ],
             ],
             [
