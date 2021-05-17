@@ -24,8 +24,8 @@ final class MethodMapCollectionDecorator implements MethodMapInterface
         $methods = [];
         foreach ($this->methodRouters as $methodRouter) {
             $methods = array_merge(
-                $methodRouter->getMethodNames($object),
-                $methods
+                $methods,
+                $methodRouter->getMethodNames($object)
             );
         }
         return $methods;

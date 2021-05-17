@@ -52,7 +52,7 @@ class AbstractMethodMapTest extends TestCase
             }
             private function doActionDateTime0Private(DateTime $dateTime, bool $wrong)
             {
-                return $dateTime->getTimestamp();
+                return $dateTime->getTimestamp() || $wrong;
             }
             private function doActionDateTime1Private(DateTime $dateTime)
             {
