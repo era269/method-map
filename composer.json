@@ -8,14 +8,13 @@
     "require": {
         "php": "^8.0|^7.1",
         "cache/array-adapter": "^1.1",
-        "psr/simple-cache": "^1.0",
-      "": ""
+        "psr/simple-cache": "^1.0"
     },
     "require-dev": {
         "phpstan/extension-installer": "^1.1",
         "phpstan/phpstan": "^0.12.85",
         "phpstan/phpstan-phpunit": "^0.12.18",
-        "phpunit/phpunit": "^7.0"
+        "phpunit/phpunit": "^9.5"
     },
     "authors": [
         {
@@ -25,7 +24,7 @@
     ],
     "config": {
         "platform": {
-            "php": "7.1"
+            "php": "8.0"
         },
         "optimize-autoloader": true,
         "sort-packages": true

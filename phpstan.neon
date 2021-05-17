@@ -2,4 +2,7 @@ parameters:
     level: 8
     paths:
         - src
-        - tests
+    ignoreErrors:
+        -
+            message: '/Parameter #1 $argument of class ReflectionClass constructor expects class-string<T of object>|T of object, string given./'
+            path: ./src/AbstractMethodMap.php

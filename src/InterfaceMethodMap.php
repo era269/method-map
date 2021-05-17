@@ -14,12 +14,11 @@ final class InterfaceMethodMap extends AbstractMethodMap implements MethodMapInt
     public function getMethodNames($object): array
     {
         $methods = [];
-        foreach ($this->getMap() as $interface => $methodName) {
+        foreach ($this->getMap() as $interface => $methodNames) {
             if ($object instanceof $interface) {
-                $methods[] = $methodName;
+                $methods = array_merge($methods, $methodNames);
             }
         }
-
         return $methods;
     }
 
